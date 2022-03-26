@@ -8,6 +8,10 @@ and the database files will be written there (starting with 50MB space for an em
 
 If you run more than one docker container, you will need to change the ```$DOCKER_NAME and $PORT_TO_USE``` environment variables on the additional containers you use.
 
+## Prerequisites:    
+* Container engine (docker-desktop should be great)  
+* MacOS / Linux / WSL (Windows Subsystem for Linux)  
+  
 ```
 # envrionment variables
 export DOCKER_NAME=pg101
