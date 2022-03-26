@@ -3,7 +3,7 @@
 ## Run the PostgreSQL database server on a container  
 this will create a directory named ```docker_db_fs``` inside your home directory and under it a directory with the name you picked for your docker container name.
 
-For example, if your O/S user name is scott, it will create ```/home/scott/docker_db_fs/pg101 ```
+For example, if your O/S user name is scott, it will create ```/home/scott/docker_db_fs/pg101 ```  
 and the database files will be written there (starting with 50MB space for an empty DB)
 
 If you run more than one docker container, you will need to change the ```$DOCKER_NAME and $PORT_TO_USE``` environment variables on the additional containers you use.
