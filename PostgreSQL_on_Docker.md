@@ -102,6 +102,33 @@ https://www.geeksforgeeks.org/postgresql-psql-commands/
 ## PostgreSQL docker reference
 https://hub.docker.com/_/postgres
   
+## Python <-> PostgreSQL  
+
+Create a virtual env:  
+```
+python3 -m venv venv
+source ./venv/bin/activate 
+pip3 install sqlalchemy pandas
+pip3 install psycopg2-binary
+```
+
+## Run this sample code  
+```
+import sqlalchemy
+import pandas as pd
+import psycopg2
+
+sHostname = "localhost"
+sPort     = 5432
+sUsername = "myuser"
+sPassword = "mypass"
+sDatabase = "mydb"
+
+engine    = sqlalchemy.create_engine(f"postgresql://{sUsername}:{sPassword}@{sHostname}:{sPort}/{sDatabase}")
+dTmp      = pd.read_sql_query("SELECT version()", engine)
+print(dTmp)
+```
+
   
   
 
