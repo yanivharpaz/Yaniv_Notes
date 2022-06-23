@@ -6,6 +6,8 @@ sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.
 sudo yum update -y
 sudo yum upgrade -y
 sudo yum install -y epel-release
+sudo yum install -y https://packages.endpointdev.com/rhel/7/os/x86_64/endpoint-repo.x86_64.rpm
+sudo yum install -y git
 sudo yum install -y mc ncdu htop  
 
 ```
