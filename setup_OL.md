@@ -2,8 +2,11 @@
 
 ```
 sudo yum update -y
+sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+sudo yum update -y
 sudo yum upgrade -y
-sudo yum install -y git mc ncdu htop  
+sudo yum install -y epel-release
+sudo yum install -y mc ncdu htop  
 
 ```
 
@@ -24,6 +27,7 @@ sudo update-alternatives --install /usr/bin/python3 python3 /opt/rh/rh-python38/
 ```
 sudo python3 -m pip install --upgrade pip
 sudo python3 -m pip install --upgrade setuptools
+sudo pip3 install wheel cython
 sudo pip3 install ipykernel jupyter pandas
 
 sudo yum localinstall -y ~/Downloads/code*.rpm
@@ -41,3 +45,6 @@ https://github.com/oracle/python-oracledb
 https://youtu.be/ywEJKkzwRN0
 
 https://levelup.gitconnected.com/open-source-python-thin-driver-for-oracle-database-e82aac7ecf5a
+
+https://oracle-base.com/articles/linux/git-2-installation-on-linux
+
