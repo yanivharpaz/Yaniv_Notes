@@ -49,4 +49,4 @@ https://youtu.be/ywEJKkzwRN0
 https://levelup.gitconnected.com/open-source-python-thin-driver-for-oracle-database-e82aac7ecf5a
 
 https://oracle-base.com/articles/linux/git-2-installation-on-linux
-
+https://oracle-base.com/articles/linux/docker-install-docker-on-oracle-linux-ol7
