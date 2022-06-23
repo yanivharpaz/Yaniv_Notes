@@ -16,6 +16,7 @@ sudo yum install -y scl-utils rh-python38
 sudo yum install -y dnf  
 
 scl enable rh-python38 bash  
+sudo update-alternatives --install /usr/bin/python3 python3 /opt/rh/rh-python38/root/usr/bin/python3 1
 
 ```
 
