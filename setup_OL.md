@@ -25,6 +25,7 @@ sudo update-alternatives --install /usr/bin/python3 python3 /opt/rh/rh-python38/
 
 ```
 
+*pre-req: download vscode from vscode.dev
 ## Setup python libraries
 ```
 sudo python3 -m pip install --upgrade pip
@@ -35,6 +36,21 @@ sudo pip3 install ipykernel jupyter pandas
 sudo yum localinstall -y ~/Downloads/code*.rpm
 
 ```
+
+## Install docker
+```
+sudo yum install -y yum-utils zip unzip
+sudo yum-config-manager --enable ol7_optional_latest
+sudo yum-config-manager --enable ol7_addons
+
+sudo yum install -y oraclelinux-developer-release-el7
+sudo yum-config-manager --enable ol7_developer
+
+sudo yum install -y docker-engine btrfs-progs btrfs-progs-devel
+  
+  
+```
+
 
 Reference ( https://yum.oracle.com/oracle-linux-python.html#InstallPython3FromLatest )
 
@@ -48,5 +64,6 @@ https://youtu.be/ywEJKkzwRN0
 
 https://levelup.gitconnected.com/open-source-python-thin-driver-for-oracle-database-e82aac7ecf5a
 
-https://oracle-base.com/articles/linux/git-2-installation-on-linux
+https://oracle-base.com/articles/linux/git-2-installation-on-linux  
+
 https://oracle-base.com/articles/linux/docker-install-docker-on-oracle-linux-ol7
