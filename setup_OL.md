@@ -51,6 +51,20 @@ sudo yum install -y docker-engine btrfs-progs btrfs-progs-devel
   
 ```
 
+## Setup oracle and opc users for docker usage (after re-login)
+```
+
+sudo service docker start
+sudo systemctl enable docker
+
+sudo groupadd docker
+sudo usermod -aG docker oracle
+sudo usermod -aG docker opc
+sudo service docker restart
+
+
+```
+
 
 Reference ( https://yum.oracle.com/oracle-linux-python.html#InstallPython3FromLatest )
 
