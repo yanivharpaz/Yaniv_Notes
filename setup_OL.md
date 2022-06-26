@@ -66,6 +66,20 @@ sudo service docker restart
 
 ```
 
+## Experiment with Spark on docker
+```
+sudo docker pull jupyter/all-spark-notebook
+
+sudo mkdir -p /vscode_user/data
+sudo chown 1000 /vscode_user/data
+
+docker run -d -p 8888:8888 -p 4040:4040 --name nb01 \
+    --user root -e NB_UID=1000 \
+    -v /vscode_user/data:/home/jovyan/work \
+    jupyter/pall-spark-notebook
+
+
+```
 
 Reference ( https://yum.oracle.com/oracle-linux-python.html#InstallPython3FromLatest )
 
