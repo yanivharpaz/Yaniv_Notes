@@ -33,6 +33,7 @@ sudo python3 -m pip install --upgrade setuptools
 sudo pip3 install wheel cython
 sudo pip3 install ipykernel jupyter pandas
 
+# *optional: will work AFTER you download the vscode RPM into your Downloads directory
 sudo yum localinstall -y ~/Downloads/code*.rpm
 
 ```
