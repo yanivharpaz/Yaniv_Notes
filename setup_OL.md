@@ -73,11 +73,13 @@ sudo docker pull jupyter/all-spark-notebook
 sudo mkdir -p /vscode_user/data
 sudo chown 1000 /vscode_user/data
 
-docker run -d -p 8888:8888 -p 4040:4040 --name nb01 \
+sudo docker run -d -p 8888:8888 -p 4040:4040 --name nb01 \
     --user root -e NB_UID=1000 \
     -v /vscode_user/data:/home/jovyan/work \
-    jupyter/pall-spark-notebook
+    jupyter/all-spark-notebook
 
+# in order to get the token:
+sudo docker exec nb01 jupyter server list
 
 ```
 
