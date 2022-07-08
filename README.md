@@ -1,7 +1,5 @@
 # Notes on making Oracle's LiveLabs useful
-a few scripts to make the Oracle Linux VMs more useful to play with
-
-( http://bit.ly/golivelabs )
+a few scripts to make the Oracle Linux VMs more useful to play with ( http://bit.ly/golivelabs )
 
 ```
 sudo yum install -y git htop mc 
