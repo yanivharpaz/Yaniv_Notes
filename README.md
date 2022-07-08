@@ -8,4 +8,8 @@ cd ~
 mkdir dev
 cd dev
 git clone https://github.com/yanivharpaz/Yaniv_Notes.git
-```
+
+sudo bash ~/dev/Yaniv_Notes/scripts/01_initial.sh  
+
+```  
+

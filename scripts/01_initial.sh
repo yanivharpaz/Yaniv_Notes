@@ -15,7 +15,7 @@ sudo yum install -y dnf
 sudo python3 -m pip install --upgrade pip
 sudo python3 -m pip install --upgrade setuptools
 sudo pip3 install wheel cython
-sudo pip3 install ipykernel jupyter pandas sqlalchemy cx_oracle --user
+sudo pip3 install ipykernel jupyter pandas sqlalchemy cx_oracle ipykernel --user
 
 sudo yum install -y yum-utils zip unzip
 sudo yum-config-manager --enable ol7_optional_latest
@@ -26,3 +26,36 @@ sudo yum-config-manager --enable ol7_developer
 
 sudo yum install -y docker-engine btrfs-progs btrfs-progs-devel
   
+
+echo "export LD_LIBRARY_PATH=/opt/oracle/product/19c/dbhome_1/lib" | tee --append ~/.bashrc
+echo "export ORACLE_HOME=/opt/oracle/product/19c/dbhome_1" | tee --append ~/.bashrc
+
+
+
+cat >> ~/run_oracle_connect.py << EOF
+
+#!/usr/bin/python3
+
+# pip3 install sqlalchemy pandas cx_oracle --user
+
+import sqlalchemy
+import pandas       as pd
+
+sUserName = "system"
+# sPassword = "Oracle123"
+sPassword = "Ora_DB4U"
+sHost     = "localhost"
+sPort     = "1521"
+sService  = "pdb1"
+
+sUrl    = f"oracle+cx_oracle://{sUserName}:{sPassword}@{sHost}:{sPort}/?service_name={sService}"
+print(sUrl)
+oEngine = sqlalchemy.create_engine(sUrl)
+
+sQuery  = "select * from global_name"
+dData   = pd.read_sql(sQuery, oEngine)
+print(dData)
+
+EOF
+
+
