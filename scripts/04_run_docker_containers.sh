@@ -12,7 +12,7 @@ sudo docker run -d -p 8888:8888 -p 4040:4040 --name nb01 \
 sudo docker exec nb01 jupyter server list
 
 export DOCKER_NAME=pg101
-export PORT_TO_USE=5432
+export PORT_TO_USE=5433
 export PG_USER=myuser
 export PG_PASSWORD=mypass
 export PG_DATABASE=mydb
@@ -31,4 +31,6 @@ docker run -d                                      \
      -e     PGDATA=/var/lib/postgresql/data/pgdata \
      -v     $PG_HOST_PATH:/var/lib/postgresql/data \
      postgres:latest
+
+docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=$PG_PASSWORD -d mysql
 
