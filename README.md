@@ -1,5 +1,7 @@
-# Yaniv_Notes
-General notes for stuff I check out
+# Notes on making Oracle's LiveLabs useful
+a few scripts to make the Oracle Linux VMs more useful to play with
+
+bit.ly/golivelabs
 
 ```
 sudo yum install -y git htop mc 
