@@ -21,6 +21,7 @@ sudo su - oracle
 # set environment
 
 source ~/.set-env-db.sh CDB1
+
 ```
 
 ## Look inside the tnsnames.ora
