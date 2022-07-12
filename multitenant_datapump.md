@@ -29,6 +29,7 @@ source ~/.set-env-db.sh CDB1
 tnsping pdb1
 tnsping pdb2
 cat $ORACLE_HOME/network/admin/tnsnames.ora
+
 ```
   
 ## Check out each container DB - which PDBs each one has
