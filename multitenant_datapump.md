@@ -30,8 +30,24 @@ tnsping pdb1
 tnsping pdb2
 cat $ORACLE_HOME/network/admin/tnsnames.ora
 ```
+  
+## Check out each container DB - which PDBs each one has
 
-## Setup pdb1 table, database link and directory
+```
+# check out each container DB - which PDBs each one has
+
+sql system/Ora_DB4U@cdb1
+show pdbs
+exit
+
+sql system/Ora_DB4U@cdb2
+show pdbs
+exit
+
+```
+
+
+## Setup pdb1 table, database link and directory 
 ```
 # setup pdb1 table, database link and directory
 
