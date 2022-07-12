@@ -102,7 +102,26 @@ impdp system/Ora_DB4U@pdb2 directory=tmp_dir dumpfile=pdb1_tb.dmp TABLE_EXISTS_A
 impdp system/Ora_DB4U@pdb1 directory=tmp_dir network_link=pdb2_lnk tables=pdb2_tb TABLE_EXISTS_ACTION=replace logfile=pdb2_imp_to_pdb1_network.log
 
 ```
+
+## Bonus material: connect directly to your PDB
+```
+export ORACLE_PDB_SID=PDB1
+sqlplus / as sysdba
+show con_name
+
+# and if you want to be 100% it's only a PDB
+shu immediate
+
+startup
+
+```
+all about that on these couple of links:
+https://mikedietrichde.com/2020/05/07/can-you-connect-as-sysdba-without-password-into-a-pdb-directly/   
   
+https://mikedietrichde.com/2020/07/13/pitfalls-connect-to-a-pdb-directly-with-oracle_pdb_sid/  
+  
+
+Thank you for reading.  
 You can contact me at http://www.twitter.com/w1025
   
     
