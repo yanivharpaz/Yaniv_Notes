@@ -2,12 +2,11 @@
 
 It's possible to try this scenario out on the Oracle live labs  
 https://developer.oracle.com/livelabs   
-with the workshop  
-Pluggables, Clones and Containers: Oracle Multitenant Fundamentals
+with the workshop:
+* Pluggables, Clones and Containers: Oracle Multitenant Fundamentals
 (ID 892)
+
   
-    
-    
 
 ## login into the oracle user
 ```
