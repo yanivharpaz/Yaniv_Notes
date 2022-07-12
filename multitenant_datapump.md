@@ -103,7 +103,7 @@ impdp system/Ora_DB4U@pdb1 directory=tmp_dir network_link=pdb2_lnk tables=pdb2_t
 
 ```
 
-## Bonus material: connect directly to your PDB
+## Bonus material: connect directly to your PDB (+ warnings about using it)
 ```
 export ORACLE_PDB_SID=PDB1
 sqlplus / as sysdba
@@ -114,11 +114,13 @@ shu immediate
 
 startup
 
-```
-all about that on these couple of links:
-https://mikedietrichde.com/2020/05/07/can-you-connect-as-sysdba-without-password-into-a-pdb-directly/   
+```  
+you need to be careful using it - lots about that here (starting 18c)
+
+all about that on these couple of links:  
+* https://mikedietrichde.com/2020/05/07/can-you-connect-as-sysdba-without-password-into-a-pdb-directly/   
   
-https://mikedietrichde.com/2020/07/13/pitfalls-connect-to-a-pdb-directly-with-oracle_pdb_sid/  
+* https://mikedietrichde.com/2020/07/13/pitfalls-connect-to-a-pdb-directly-with-oracle_pdb_sid/  
   
 
 Thank you for reading.  
