@@ -13,6 +13,7 @@ with the workshop:
 # login into the oracle user
 
 sudo su - oracle
+
 ```
 
 ## Set environment
