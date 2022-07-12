@@ -38,6 +38,7 @@ select * from pdb1_tb;
 create database link pdb2_lnk connect to system identified by Ora_DB4U using 'pdb2';
 create directory tmp_dir as '/tmp';
 exit
+
 ```
 
 ## Setup pdb2 table, database link and directory
@@ -50,29 +51,35 @@ select * from pdb2_tb;
 create database link pdb1_lnk connect to system identified by Ora_DB4U using 'pdb2';
 create directory tmp_dir as '/tmp';
 exit 
+
 ```
 
 ## Datapump export into files from both PDBs
 ```
 # datapump export into files from both PDBs
 expdp system/Ora_DB4U@pdb1 directory=tmp_dir dumpfile=pdb1_tb.dmp tables=pdb1_tb reuse_dumpfiles=y logfile=pdb1_exp_tb.log
+
 expdp system/Ora_DB4U@pdb2 directory=tmp_dir dumpfile=pdb2_tb.dmp tables=pdb2_tb reuse_dumpfiles=y logfile=pdb2_exp_tb.log
+
 ```
 
 ## Datapump import files from both PDBs
 ```
 # datapump import files from both PDBs
 impdp system/Ora_DB4U@pdb1 directory=tmp_dir dumpfile=pdb2_tb.dmp TABLE_EXISTS_ACTION=replace logfile=pdb2_imp_to_pdb1_tb.log
+
 impdp system/Ora_DB4U@pdb2 directory=tmp_dir dumpfile=pdb1_tb.dmp TABLE_EXISTS_ACTION=replace logfile=pdb1_imp_to_pdb2_tb.log
+
 ```
 
 ## Datapump import through database link
 ```
 # datapump import through database link
 impdp system/Ora_DB4U@pdb1 directory=tmp_dir network_link=pdb2_lnk tables=pdb2_tb TABLE_EXISTS_ACTION=replace logfile=pdb2_imp_to_pdb1_network.log
+
 ```
   
 You can contact me at http://www.twitter.com/w1025
   
     
-    
+
