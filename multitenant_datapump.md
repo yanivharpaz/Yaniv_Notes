@@ -106,6 +106,25 @@ impdp system/Ora_DB4U@pdb1 directory=tmp_dir network_link=pdb2_lnk tables=pdb2_t
 
 ```
 
+
+## check out the tables
+```
+
+sql system/Ora_DB4U@pdb1
+set sqlformat ANSICONSOLE
+select * from pdb1_tb;
+select * from pdb2_tb;
+exit
+
+sql system/Ora_DB4U@pdb2
+set sqlformat ANSICONSOLE
+select * from pdb1_tb;
+select * from pdb2_tb;
+exit
+
+```
+
+
 ## Bonus material: connect directly to your PDB (+ warnings about using it)
 ```
 export ORACLE_PDB_SID=PDB1
