@@ -95,9 +95,9 @@ impdp system/Ora_DB4U@pdb2 directory=tmp_dir dumpfile=pdb1_tb.dmp TABLE_EXISTS_A
 
 ```
 
-## Datapump import through database link
+## Datapump import through a database link
 ```
-# datapump import through database link
+# datapump import through a database link
 
 impdp system/Ora_DB4U@pdb1 directory=tmp_dir network_link=pdb2_lnk tables=pdb2_tb TABLE_EXISTS_ACTION=replace logfile=pdb2_imp_to_pdb1_network.log
 
