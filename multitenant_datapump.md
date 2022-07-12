@@ -122,8 +122,11 @@ all about that on these couple of links:
   
 * https://mikedietrichde.com/2020/07/13/pitfalls-connect-to-a-pdb-directly-with-oracle_pdb_sid/  
   
-
 Thank you for reading.  
+  
+    
+      
+
 You can contact me at http://www.twitter.com/w1025
   
     
