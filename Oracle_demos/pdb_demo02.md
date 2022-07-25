@@ -166,7 +166,6 @@ Database opened.
 ( https://apexapps.oracle.com/pls/apex/f?p=133:180:114093654042284::::wid:656 )
 
 
-
 ## Bonus material #3 : connect directly to your PDB (+ warnings) + Restart
 ```
 export ORACLE_PDB_SID=PDB1
