@@ -113,7 +113,75 @@ JUST_A_TABLE   DEMO_TBS
 
 ```
 
-## Change CDB memory parameter
+## PDB level storage lomitations 
+```
+-- Limit the total storage of the the PDB (datafile and local temp files).
+alter pluggable database storage (maxsize 5g);
+
+-- Limit the amount of temp space used in the shared temp files.
+alter pluggable database storage (max_shared_temp_size 2g);
+
+-- Combine the two.
+alter pluggable database storage (maxsize 5g max_shared_temp_size 2g);
+
+-- Remove the limits.
+alter pluggable database storage unlimited;
+
+```
+
+## CDB common user
+```
+
+CONN / AS SYSDBA
+
+-- Create the common user using the CONTAINER clause.
+CREATE USER c##test_user1 IDENTIFIED BY password1 CONTAINER=ALL;
+GRANT CREATE SESSION TO c##test_user1 CONTAINER=ALL;
+
+```
+
+## CDB common Roles
+```
+-- Create the common role.
+CREATE ROLE c##test_role1;
+GRANT CREATE SESSION TO c##test_role1;
+
+-- Grant it to a common user.
+GRANT c##test_role1 TO c##test_user1 CONTAINER=ALL;
+
+-- Grant it to a local user.
+ALTER SESSION SET CONTAINER = pdb1;
+GRANT c##test_role1 TO test_user3;
+
+```
+
+## CDB vs PDB parameter
+```
+[CDB1:oracle@dbhol:~]$ export ORACLE_PDB_SID=CDB1
+[CDB1:oracle@dbhol:~]$ sqlplus / as sysdba
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Sun Jul 24 12:23:49 2022
+Version 19.11.0.0.0
+
+Copyright (c) 1982, 2020, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.11.0.0.0
+
+SQL> 
+column name format a35
+column value format a35
+ 
+select name, value
+from   v$system_parameter
+where  ispdb_modifiable = 'TRUE'
+order by name;
+
+```
+
+## Change parameter on CDB level
 ```
 [CDB1:oracle@dbhol:~]$ export ORACLE_PDB_SID=CDB1
 [CDB1:oracle@dbhol:~]$ sqlplus / as sysdba
@@ -157,7 +225,91 @@ Database Buffers	 1593835520 bytes
 Redo Buffers		    7630848 bytes
 Database mounted.
 Database opened.
+
+
+SQL> alter system set parameter_name=value;
+SQL> alter system set parameter_name=value container=current;
+
+SQL> alter system set parameter_name=value container=all;
 ```
+## PDB level spfile
+```
+-- Get the list of parameters, including the PDB_UID.
+set linesize 120
+column pdb_name format a10
+column name format a30
+column value$ format a30
+
+select ps.db_uniq_name,
+       ps.pdb_uid,
+       p.name as pdb_name,
+       ps.name,
+       ps.value$
+from   pdb_spfile$ ps
+       join v$pdbs p on ps.pdb_uid = p.con_uid
+order by 1, 2, 3;
+
+-- Delete the PDB-level parameters from the table, using the PDB_UID value.
+delete from pdb_spfile$ where pdb_uid = {your PDB_UID value};
+commit;
+
+-- Restart the container database.
+alter pluggable database close immediate;
+alter pluggable database open;
+
+```
+## Changes on PDB level
+```
+
+-- ALTER SYSTEM Statement on a PDB
+ALTER SYSTEM FLUSH SHARED_POOL;
+ALTER SYSTEM FLUSH BUFFER_CACHE;
+ALTER SYSTEM ENABLE RESTRICTED SESSION;
+ALTER SYSTEM DISABLE RESTRICTED SESSION;
+ALTER SYSTEM SET USE_STORED_OUTLINES;
+ALTER SYSTEM SUSPEND;
+ALTER SYSTEM RESUME;
+ALTER SYSTEM CHECKPOINT;
+ALTER SYSTEM CHECK DATAFILES;
+ALTER SYSTEM REGISTER;
+ALTER SYSTEM KILL SESSION;
+ALTER SYSTEM DISCONNECT SESSION;
+
+
+-- Default tablespace type for PDB.
+alter pluggable database set default bigfile tablespace;
+alter pluggable database set default smallfile tablespace;
+
+-- Default tablespaces for PDB.
+alter pluggable database default tablespace users;
+alter pluggable database default temporary tablespace temp;
+
+-- Change the global name. This will change the container name and the
+-- name of the default service registered with the listener.
+alter pluggable database open restricted force;
+alter pluggable database rename global_name to pdb1a.localdomain;
+alter pluggable database close immediate;
+alter pluggable database open;
+
+-- Time zone for PDB.
+alter pluggable database set time_zone='GMT';
+
+
+-- Make datafiles in the PDB offline/online and make storage changes.
+alter pluggable database datafile '/u01/app/oracle/oradata/cdb1/pdb1/pdb1_users01.dbf' offline;
+alter pluggable database datafile '/u01/app/oracle/oradata/cdb1/pdb1/pdb1_users01.dbf' online;
+
+alter pluggable database datafile '/u01/app/oracle/oradata/cdb1/pdb1/pdb1_users01.dbf'
+  resize 1g autoextend on next 1m;
+
+-- Supplemental logging for PDB.
+alter pluggable database add supplemental log data;
+alter pluggable database drop supplemental log data;
+
+```
+
+
+
 
 ## Bonus material #1 : PDB CDB Monitoring with SQL Developer // YouTube 
 ( https://youtu.be/eDp7o2fh8bw )
