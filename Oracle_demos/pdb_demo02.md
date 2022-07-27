@@ -113,7 +113,7 @@ JUST_A_TABLE   DEMO_TBS
 
 ```
 
-## PDB level storage lomitations 
+## PDB level storage limitations 
 ```
 -- Limit the total storage of the the PDB (datafile and local temp files).
 alter pluggable database storage (maxsize 5g);
@@ -338,7 +338,7 @@ Thank you for reading.
   
     
       
-
+Writers: Alex Terehovsky & Yaniv Harpaz  
 You can contact me at http://www.twitter.com/w1025
   
     
