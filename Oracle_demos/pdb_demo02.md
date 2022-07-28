@@ -53,22 +53,11 @@ exit
 
 ```
 
-[CDB1:oracle@dbhol:~]$ sql system/Ora_DB4U@pdb1
-
-SQLcl: Release 19.1 Production on Sun Jul 24 12:42:29 2022
-
-Copyright (c) 1982, 2022, Oracle.  All rights reserved.
-
-Last Successful login time: Sun Jul 24 2022 12:42:30 +00:00
-
-Connected to:
-Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
-Version 19.11.0.0.0
-
-
-SQL> set sqlformat ANSICONSOLE
+sql system/Ora_DB4U@pdb1
+set sqlformat ANSICONSOLE
 SQL> select file_name, bytes / 1048576
-  2  from dba_data_files;
+     from dba_data_files;
+
 FILE_NAME                                       BYTES/1048576
 /opt/oracle/oradata/CDB1/PDB1/system01.dbf                350
 /opt/oracle/oradata/CDB1/PDB1/sysaux01.dbf                550
@@ -77,28 +66,19 @@ FILE_NAME                                       BYTES/1048576
 
 
 SQL> create tablespace demo_tbs datafile
-  2  '/opt/oracle/oradata/CDB1/PDB1/demo_tbs01.dbf'
-  3  size 100m ;
-
-Tablespace created.
+     '/opt/oracle/oradata/CDB1/PDB1/demo_tbs01.dbf'
+      size 100m ;
 
 SQL> create user demo_schema identified by Ora_DB4U;
 
-User created.
-
 SQL> grant connect,resource to demo_schema;
-
-Grant succeeded.
 
 SQL> alter user demo_schema quota unlimited on demo_tbs;
 
-User altered.
-
 SQL> create table demo_schema.just_a_table tablespace demo_tbs as select * from all_objects;
 
-Table created.
-
 SQL> select file_name, bytes / 1048576 from dba_data_files;
+
 FILE_NAME                                        BYTES/1048576
 /opt/oracle/oradata/CDB1/PDB1/system01.dbf                 350
 /opt/oracle/oradata/CDB1/PDB1/sysaux01.dbf                 550
@@ -108,6 +88,7 @@ FILE_NAME                                        BYTES/1048576
 
 
 SQL> select table_name, tablespace_name from dba_tables where owner='DEMO_SCHEMA';
+
 TABLE_NAME     TABLESPACE_NAME
 JUST_A_TABLE   DEMO_TBS
 
@@ -115,6 +96,9 @@ JUST_A_TABLE   DEMO_TBS
 
 ## PDB level storage limitations 
 ```
+sql system/Ora_DB4U@pdb1
+set sqlformat ANSICONSOLE
+
 -- Limit the total storage of the the PDB (datafile and local temp files).
 alter pluggable database storage (maxsize 5g);
 
@@ -131,50 +115,37 @@ alter pluggable database storage unlimited;
 
 ## CDB common user
 ```
-
-CONN / AS SYSDBA
+sql system/Ora_DB4U@pdb1
+set sqlformat ANSICONSOLE
 
 -- Create the common user using the CONTAINER clause.
-CREATE USER c##test_user1 IDENTIFIED BY password1 CONTAINER=ALL;
-GRANT CREATE SESSION TO c##test_user1 CONTAINER=ALL;
+CREATE USER c##common_user1 IDENTIFIED BY Ora_DB4U CONTAINER=ALL;
+GRANT CREATE SESSION TO c##common_user1 CONTAINER=ALL;
 
 ```
 
 ## CDB common Roles
 ```
 -- Create the common role.
-CREATE ROLE c##test_role1;
-GRANT CREATE SESSION TO c##test_role1;
+CREATE ROLE c##common_role1;
+GRANT CREATE SESSION TO c##common_role1;
 
 -- Grant it to a common user.
-GRANT c##test_role1 TO c##test_user1 CONTAINER=ALL;
+GRANT c##common_role1 TO c##common_user1 CONTAINER=ALL;
 
 -- Grant it to a local user.
 ALTER SESSION SET CONTAINER = pdb1;
-GRANT c##test_role1 TO test_user3;
+GRANT c##common_role1 TO local_user1;
 
 ```
 
 ## CDB vs PDB parameter
 ```
-[CDB1:oracle@dbhol:~]$ export ORACLE_PDB_SID=CDB1
-[CDB1:oracle@dbhol:~]$ sqlplus / as sysdba
+sql sys/Ora_DB4U@pdb1 as sysdba
+set sqlformat ANSICONSOLE
 
-SQL*Plus: Release 19.0.0.0.0 - Production on Sun Jul 24 12:23:49 2022
-Version 19.11.0.0.0
-
-Copyright (c) 1982, 2020, Oracle.  All rights reserved.
-
-
-Connected to:
-Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
-Version 19.11.0.0.0
-
-SQL> 
-column name format a35
-column value format a35
- 
-select name, value
+-- Check which parameters can be modified 
+select name, value,isses_modifiable
 from   v$system_parameter
 where  ispdb_modifiable = 'TRUE'
 order by name;
@@ -183,31 +154,22 @@ order by name;
 
 ## Change parameter on CDB level
 ```
-[CDB1:oracle@dbhol:~]$ export ORACLE_PDB_SID=CDB1
-[CDB1:oracle@dbhol:~]$ sqlplus / as sysdba
-
-SQL*Plus: Release 19.0.0.0.0 - Production on Sun Jul 24 12:23:49 2022
-Version 19.11.0.0.0
-
-Copyright (c) 1982, 2020, Oracle.  All rights reserved.
-
-
-Connected to:
-Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
-Version 19.11.0.0.0
+sql sys/Ora_DB4U@pdb1 as sysdba
+set sqlformat ANSICONSOLE
 
 SQL> shu immediate
 Database closed.
 Database dismounted.
 ORACLE instance shut down.
+
 SQL> startup
 ORACLE instance started.
 
-Total System Global Area 3221223184 bytes
-Fixed Size		    9139984 bytes
-Variable Size		 1610612736 bytes
-Database Buffers	 1593835520 bytes
-Redo Buffers		    7634944 bytes
+Total System Global Area 32...... bytes
+Fixed Size		    32.... bytes
+Variable Size		 32.... bytes
+Database Buffers	 32.... bytes
+Redo Buffers		    32.... bytes
 Database mounted.
 Database opened.
 SQL>
@@ -218,28 +180,28 @@ System altered.
 SQL> startup force
 ORACLE instance started.
 
-Total System Global Area 4294963992 bytes
-Fixed Size		    9143064 bytes
-Variable Size		 2684354560 bytes
-Database Buffers	 1593835520 bytes
-Redo Buffers		    7630848 bytes
+Total System Global Area 42.... bytes
+Fixed Size		    32.... bytes
+Variable Size		 32.... bytes
+Database Buffers	 32.... bytes
+Redo Buffers		    32.... bytes
 Database mounted.
 Database opened.
 
-
+-- Options ALL / Current
 SQL> alter system set parameter_name=value;
 SQL> alter system set parameter_name=value container=current;
-
 SQL> alter system set parameter_name=value container=all;
+
+
 ```
 ## PDB level spfile
+## PDB level managed in table pdb_spfile$
 ```
--- Get the list of parameters, including the PDB_UID.
-set linesize 120
-column pdb_name format a10
-column name format a30
-column value$ format a30
+sql sys/Ora_DB4U@pdb1 as sysdba
+set sqlformat ANSICONSOLE
 
+-- Get the list of parameters, including the PDB.
 select ps.db_uniq_name,
        ps.pdb_uid,
        p.name as pdb_name,
@@ -260,6 +222,8 @@ alter pluggable database open;
 ```
 ## Changes on PDB level
 ```
+sql sys/Ora_DB4U@pdb1 as sysdba
+set sqlformat ANSICONSOLE
 
 -- ALTER SYSTEM Statement on a PDB
 ALTER SYSTEM FLUSH SHARED_POOL;
@@ -296,10 +260,10 @@ alter pluggable database set time_zone='GMT';
 
 
 -- Make datafiles in the PDB offline/online and make storage changes.
-alter pluggable database datafile '/u01/app/oracle/oradata/cdb1/pdb1/pdb1_users01.dbf' offline;
-alter pluggable database datafile '/u01/app/oracle/oradata/cdb1/pdb1/pdb1_users01.dbf' online;
+alter pluggable database datafile '/opt/oracle/oradata/CDB1/PDB1/demo_tbs01.dbf' offline;
+alter pluggable database datafile '/opt/oracle/oradata/CDB1/PDB1/demo_tbs01.dbf' online;
 
-alter pluggable database datafile '/u01/app/oracle/oradata/cdb1/pdb1/pdb1_users01.dbf'
+alter pluggable database datafile '/opt/oracle/oradata/CDB1/PDB1/demo_tbs01.dbf'
   resize 1g autoextend on next 1m;
 
 -- Supplemental logging for PDB.
@@ -308,8 +272,209 @@ alter pluggable database drop supplemental log data;
 
 ```
 
+## Pluggable database Patching Process
+Note: Disable the backup job of RMAN.
 
+1. Set ORACLE_HOME, PATH and ORACLE_SID
+```
+# set environment
 
+source ~/.set-env-db.sh CDB1
+```
+
+2. Check the OPatch utility version
+```
+/opt/oracle/product/19c/dbhome_1/OPatch/opatch version
+```
+
+3. Check the compatibility.
+Go to patch location
+```
+cd /tmp/32904851
+
+[CDB1:oracle@dbhol:/tmp/32904851]$ /opt/oracle/product/19c/dbhome_1/OPatch/opatch prereq CheckConflictAgainstOHWithDetail -ph .
+```
+
+4. Check the lsinventory
+```
+/opt/oracle/product/19c/dbhome_1/OPatch/opatch lsinventory
+
+/opt/oracle/product/19c/dbhome_1/OPatch/opatch lsinventory | grep 32904851
+```
+5. Status of the listener
+```
+lsnrctl status
+```
+
+6. Take RMAN backup  
+
+7. Create PFILE from SPFILE
+```
+sql sys/Ora_DB4U@cdb1 as sysdba
+set sqlformat ANSICONSOLE
+
+create pfile='/tmp/initpfileCDB1.ora' from spfile;
+```
+8. Check the status of all pluggable database
+```
+sql sys/Ora_DB4U@cdb1 as sysdba
+set sqlformat ANSICONSOLE
+
+select d.con_id, v.name, v.open_mode, nvl(v.restricted, 'n/a') "RESTRICTED", d.status
+from v$PDBs v inner join dba_pdbs d using (GUID) order by v.create_scn;
+```
+9. Open all the pluggable database.
+```
+sql sys/Ora_DB4U@cdb1 as sysdba
+set sqlformat ANSICONSOLE
+
+alter pluggable database all open;
+
+select d.con_id, v.name, v.open_mode, nvl(v.restricted, 'n/a') "RESTRICTED", d.status
+from v$PDBs v inner join dba_pdbs d using (GUID) order by v.create_scn;
+```
+
+10. Check the invalid objects in PDBs & CDB database 
+Note: CDB view only return value for open pdbs, so all pdb must be open.
+```
+sql sys/Ora_DB4U@cdb1 as sysdba
+set sqlformat ANSICONSOLE
+
+select count(*) from cdb_objects where status='INVALID';
+
+Select con_id, count(*) from cdb_objects where status='INVALID' group by con_id;
+```
+
+11. Check the SQL Patch view for patch history
+Note: CDB view only return value for open pdbs, so all pdb must be open.
+```
+sql sys/Ora_DB4U@cdb1 as sysdba
+set sqlformat ANSICONSOLE
+
+select con_id, patch_id, version, status, Action, Action_time from cdb_registry_sqlpatch order by action_time;
+```
+
+12. Check the dba_registry components
+```
+sql sys/Ora_DB4U@cdb1 as sysdba
+set sqlformat ANSICONSOLE
+
+select con_id,comp_id,comp_name,version,status from cdb_registry;
+```
+
+13. Check the database archive mode
+```
+sql sys/Ora_DB4U@cdb1 as sysdba
+set sqlformat ANSICONSOLE
+
+archive log list;
+```
+
+14. Shutdown the PDBs and CDB 
+```
+sql sys/Ora_DB4U@cdb1 as sysdba
+set sqlformat ANSICONSOLE
+
+alter pluggable database all close immediate;
+
+select d.con_id, v.name, v.open_mode, nvl(v.restricted, 'n/a') "RESTRICTED", d.status
+from v$PDBs v inner join dba_pdbs d using (GUID) order by v.create_scn;
+
+shutdown immediate;
+```
+
+15. Apply the patch
+```
+cd /tmp/32904851
+
+[CDB1:oracle@dbhol:/tmp/32904851]$ /opt/oracle/product/19c/dbhome_1/OPatch/opatch apply
+```
+
+16. Post installation
+```
+sql sys/Ora_DB4U@cdb1 as sysdba
+set sqlformat ANSICONSOLE
+
+-- Steps only for apply window bundle patch
+startup
+alter pluggable database all open;
+
+-- Check all pdb is in upgrade state
+select d.con_id, v.name, v.open_mode, nvl(v.restricted, 'n/a') "RESTRICTED", d.status
+from v$PDBs v inner join dba_pdbs d using (GUID) order by v.create_scn;
+```
+
+17. Execute the datapatch verbose commands
+```
+cd %ORACLE_HOME%/OPatch
+datapatch -verbose
+```
+
+18. Check the log files for catbundle at following locations
+
+%ORACLE_HOME%\cfgtoollogs\catbundle or %ORACLE_BASE%\cfgtoollogs\catbundle for any errors:
+
+19. Open the CDB & PDB’s database in normal mode:
+```
+sql sys/Ora_DB4U@cdb1 as sysdba
+set sqlformat ANSICONSOLE
+
+--CDB
+Shutdown immediate
+startup
+
+--PDB
+alter pluggable database all open;
+
+--check with following view about error or action need to take:
+select message,action from pdb_plug_in_violations;
+
+select d.con_id, v.name, v.open_mode, nvl(v.restricted, 'n/a') "RESTRICTED"
+, d.status from v$PDBs v inner join dba_pdbs d using (GUID) order by v.create_scn;
+```
+
+20. Check the invalid objects in all PDBs & CDB and compile invalid objects
+```
+sql sys/Ora_DB4U@cdb1 as sysdba
+set sqlformat ANSICONSOLE
+
+select count(*) from cdb_objects where status='INVALID';
+
+Select con_id, count(*) from cdb_objects where status='INVALID' group by con_id;
+
+-- If needed run
+SQL> @utlrp.sql
+```
+
+21. Check the database registry view
+
+```
+sql sys/Ora_DB4U@cdb1 as sysdba
+set sqlformat ANSICONSOLE
+
+select con_id,comp_id,comp_name,version,status from cdb_registry;
+```
+
+22. Check the registry$history view
+```
+sql sys/Ora_DB4U@cdb1 as sysdba
+set sqlformat ANSICONSOLE
+
+select con_id, patch_id, version, status, Action, Action_time from cdb_registry_sqlpatch order by action_time;
+
+select patch_id, patch_uid, version, status, description from cdb_registry_sqlpatch;
+select patch_id, version, status, Action, Action_time from cdb_registry_sqlpatch order by action_time;
+```
+
+23. Check the listener connectivity
+```
+lsnrctl status
+
+sql sys/Ora_DB4U@cdb1 as sysdba
+exit
+sql sys/Ora_DB4U@pdb1 as sysdba
+exit
+```
 
 ## Bonus material #1 : PDB CDB Monitoring with SQL Developer // YouTube 
 ( https://youtu.be/eDp7o2fh8bw )
@@ -338,7 +503,7 @@ Thank you for reading.
   
     
       
-Writers: Alex Terehovsky & Yaniv Harpaz  
+
 You can contact me at http://www.twitter.com/w1025
   
     
