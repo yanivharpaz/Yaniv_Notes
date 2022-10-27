@@ -219,3 +219,41 @@ sudo sed -i 's/plugins=(git)/plugins=(git git-flow brew history node npm kubectl
 echo "bash -c zsh" | tee --append ~/.bashrc
 ```
 
+### Provide remote desktop access (Centos)
+
+```
+
+sudo su
+
+sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+sudo sed -i 's/#   PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/ssh_config
+service sshd restart
+
+sudo useradd rdp_user
+sudo usermod -aG wheel rdp_user
+sudo passwd rdp_user << EOF
+rdp123@
+rdp123@
+EOF
+
+sudo su - rdp_user
+
+cat > ~/.Xclients << EOF
+#!/bin/bash
+XFCE="\$(which xfce4-session 2>/dev/null)"
+exec "\$XFCE"
+EOF
+
+chmod +x ~/.Xclients
+
+exit
+
+sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+sudo yum update && sudo yum -y install xrdp tigervnc-server
+sudo systemctl enable xrdp && sudo systemctl restart xrdp
+sudo yum groups -y install "Xfce"
+
+
+echo "$(curl ifconfig.me) "
+
+```
