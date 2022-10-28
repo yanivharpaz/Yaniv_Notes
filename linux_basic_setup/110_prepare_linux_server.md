@@ -254,6 +254,7 @@ sudo yum install -y xrdp tigervnc-server
 sudo yum groups -y install "Xfce"
 sudo systemctl enable xrdp && sudo systemctl restart xrdp
 
+sudo /usr/sbin/iptables -I INPUT -p tcp --dport 3389 -j ACCEPT -m comment --comment "Allow remote desktop"
 
 echo "$(curl ifconfig.me) "
 
