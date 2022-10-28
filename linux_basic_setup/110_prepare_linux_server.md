@@ -251,6 +251,7 @@ exit
 sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 sudo yum update -y 
 sudo yum install -y xrdp tigervnc-server
+sudo yum install -y firefox
 sudo yum groups -y install "Xfce"
 sudo systemctl enable xrdp && sudo systemctl restart xrdp
 
