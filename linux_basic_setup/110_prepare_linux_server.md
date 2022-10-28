@@ -232,8 +232,8 @@ service sshd restart
 sudo useradd rdp_user
 sudo usermod -aG wheel rdp_user
 sudo passwd rdp_user << EOF
-Rdp12345@
-Rdp12345@
+RDPrdp123@
+RDPrdp123@
 EOF
 
 sudo su - rdp_user
