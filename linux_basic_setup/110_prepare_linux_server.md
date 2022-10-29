@@ -223,6 +223,8 @@ echo "bash -c zsh" | tee --append ~/.bashrc
 
 ```
 
+sudo su
+
 apt update ; apt install -y xrdp ; apt install -y xfce4-session
 
 sudo useradd rdp_user
