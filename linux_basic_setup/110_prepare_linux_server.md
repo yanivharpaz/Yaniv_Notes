@@ -219,6 +219,25 @@ sudo sed -i 's/plugins=(git)/plugins=(git git-flow brew history node npm kubectl
 echo "bash -c zsh" | tee --append ~/.bashrc
 ```
 
+### Provide remote desktop access (Ubuntu)
+
+```
+
+apt update ; apt install -y xrdp ; apt install -y xfce4-session
+
+sudo useradd rdp_user
+sudo passwd rdp_user << EOF
+RDPrdp123@
+RDPrdp123@
+EOF
+
+sudo /usr/sbin/iptables -I INPUT -p tcp --dport 3389 -j ACCEPT -m comment --comment "Allow remote desktop"
+
+sudo apt install -y firefox git
+
+```
+
+
 ### Provide remote desktop access (Centos)
 
 ```
