@@ -233,7 +233,9 @@ RDPrdp123@
 RDPrdp123@
 EOF
 
-sudo /usr/sbin/iptables -I INPUT -p tcp --dport 3389 -j ACCEPT -m comment --comment "Allow remote desktop"
+iptables -I INPUT -p tcp --dport 3389 -j ACCEPT -m comment --comment "Allow remote desktop"
+
+sudo service xrdp restart
 
 sudo apt install -y firefox git
 
