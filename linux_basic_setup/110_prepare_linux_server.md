@@ -279,6 +279,7 @@ sudo yum groups -y install "Xfce"
 sudo systemctl enable xrdp && sudo systemctl restart xrdp
 
 sudo yum groupinstall -y "GNOME Desktop" "Graphical Administration Tools"
+sudo yum install -y xclock
 sudo ln -sf /lib/systemd/system/runlevel5.target /etc/systemd/system/default.target
 
 sudo /usr/sbin/iptables -I INPUT -p tcp --dport 3389 -j ACCEPT -m comment --comment "Allow remote desktop"
