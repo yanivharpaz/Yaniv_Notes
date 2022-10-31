@@ -287,3 +287,14 @@ sudo /usr/sbin/iptables -I INPUT -p tcp --dport 3389 -j ACCEPT -m comment --comm
 echo "$(curl ifconfig.me) "
 
 ```
+
+
+## Add user to sudoers
+```
+chmod u+w /etc/sudoers
+sed -i 's/# %wheel/%wheel/' /etc/sudoers 
+
+usermod -a -G wheel rdp_user
+
+```
+
