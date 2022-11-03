@@ -298,3 +298,38 @@ usermod -a -G wheel rdp_user
 
 ```
 
+
+
+## install Azure CLI (Centos)
+
+```
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+
+sudo sh -c 'echo -e "[azure-cli]
+name=Azure CLI
+baseurl=https://packages.microsoft.com/yumrepos/azure-cli
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
+
+sudo yum install -y azure-cli
+
+```
+
+## Install azcopy
+
+```
+
+wget https://aka.ms/downloadazcopy-v10-linux
+mv downloadazcopy-v10-linux azcopy.tar.gz
+tar xvf azcopy.tar.gz
+sudo cp ./azcopy_linux_amd*/azcopy /usr/sbin
+sudo chmod a+x /usr/sbin/azcopy
+
+```
+
+Thank you for reading.  
+  
+
+You can contact me at http://www.twitter.com/w1025
+
