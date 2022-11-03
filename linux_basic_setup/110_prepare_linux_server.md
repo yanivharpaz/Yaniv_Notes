@@ -328,6 +328,17 @@ sudo chmod a+x /usr/sbin/azcopy
 
 ```
 
+
+Storage account -> Shared access signature
+https://youtu.be/K_2yUH2FqaY
+
+```
+azcopy sync ./files "https://XXXXX.blob.core.windows.net/YYYY/?sv=ZZZZ" --delete-destination=true 
+azcopy sync "https://XXXXX.blob.core.windows.net/YYYY/?sv=ZZZZ" ./files --delete-destination=true
+
+```
+
+
 Thank you for reading.  
   
 
