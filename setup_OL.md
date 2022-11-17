@@ -88,6 +88,8 @@ sudo docker exec nb01 jupyter server list
 
 ```
 
+google-chrome --password-store=basic https://code.visualstudio.com/download &
+
 sudo yum update -y
 sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 sudo yum update -y
@@ -111,7 +113,6 @@ sudo pip3 install wheel cython
 sudo pip3 install ipykernel jupyter pandas
 
 # *optional: will work AFTER you download the vscode RPM into your Downloads directory
-google-chrome --password-store=basic https://code.visualstudio.com/download &
 sudo yum localinstall -y ~/Downloads/code*.rpm
 
 sudo yum install -y yum-utils zip unzip
