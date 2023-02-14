@@ -1,14 +1,3 @@
-# OCI-Cloud-Shell
-Oracle Cloud Shell scripts
-
-| filename         | usage                                        |
-|------------------|----------------------------------------------|
-| oci_bashrc.sh    | example of ~/.bashrc                         |
-| adw.sh           | create a bastion session for the ADW         |
-| vm-python.sh     | create bastion sessions for the VMs and ADW  |
-| show_commands.py | display the SSH tunnel commands on localhost |
-
-  
   
 # SSH Keys conversion  
 ## Setup and install  
